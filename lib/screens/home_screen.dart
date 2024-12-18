@@ -1,9 +1,20 @@
-import 'package:flutter/material.dart';
-import '../variables.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// HomeScreen.dart
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // Add this import
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../variables.dart'; // Import variables.dart to access uProfilePic
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0; // Track the current selected index
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +33,8 @@ class HomeScreen extends StatelessWidget {
             ),
             leading: CircleAvatar(
               backgroundColor: Colors.lightGreen,
-              backgroundImage: NetworkImage(uProfilePic),
+              backgroundImage:
+                  NetworkImage(uProfilePic), // Accessing the getter
               radius: 20,
             ),
             elevation: 0.0,
@@ -40,31 +52,48 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+      body: Center(
+        child: Text('Content for Home Screen $_currentIndex'),
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex, // Set current index
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index; // Update selected index
+          });
+        },
         items: [
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '/assets/icons/home.svg',
+            icon: Image.asset(
+              'assets/icons/home.png', // Use PNG/JPEG image instead of SVG
               width: 24,
               height: 24,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '/assets/icons/wallet_card.svg',
+            icon: Image.asset(
+              'assets/icons/wallet_card.png',
               width: 24,
               height: 24,
             ),
             label: 'Wallet',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '/assets/icons/clock_rotate_left.svg',
+            icon: Image.asset(
+              'assets/icons/clock_rotate_left.png',
               width: 24,
               height: 24,
             ),
             label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/user.png',
+              width: 24,
+              height: 24,
+            ),
+            label: 'Profile',
           ),
         ],
       ),

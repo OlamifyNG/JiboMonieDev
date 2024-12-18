@@ -12,29 +12,34 @@ dependencies:
   google_nav_bar: ^5.0.7
   line_icons: ^2.0.3
   font_awesome_flutter: ^10.8.0
-  flutter_svg: ^2.0.10
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.2
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  remove_alpha_ios: true
 
 flutter:
-
   uses-material-design: true
   assets:
-    - assets/icons/home.svg
-    - assets/icons/wallet_card.svg
-    - assets/icons/clock_rotate_left.svg
+    - assets/icons/home.png
+    - assets/icons/wallet_card.png
+    - assets/icons/clock_rotate_left.png
+    - assets/icons/user.png
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+fonts:
+  - family: SFPRO
+    fonts:
+      - asset: assets/fonts/SFPRO.otf
+  # Example of additional font configurations:
+  # - family: Schyler
+  #   fonts:
+  #     - asset: fonts/Schyler-Regular.ttf
+  #     - asset: fonts/Schyler-Italic.ttf
+  #       style: italic
