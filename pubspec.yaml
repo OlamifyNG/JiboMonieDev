@@ -32,14 +32,15 @@ flutter:
     - assets/icons/wallet_card.png
     - assets/icons/clock_rotate_left.png
     - assets/icons/user.png
+    - assets/fonts/Poppins-Regular.ttf  # Added Poppins font asset explicitly
+    - assets/fonts/Poppins-Bold.ttf
+    - assets/fonts/Poppins-Italic.ttf  # Add more if needed
 
-fonts:
-  - family: SFPRO
-    fonts:
-      - asset: assets/fonts/SFPRO.otf
-  # Example of additional font configurations:
-  # - family: Schyler
-  #   fonts:
-  #     - asset: fonts/Schyler-Regular.ttf
-  #     - asset: fonts/Schyler-Italic.ttf
-  #       style: italic
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-Italic.ttf
+          style: italic

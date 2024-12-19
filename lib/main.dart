@@ -12,10 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Jibomonie',
       theme: ThemeData(
-        fontFamily: 'SFPRO',
-        primarySwatch: Colors.blue,
+        fontFamily: 'Poppins',
+        primarySwatch: Colors.green,
       ),
       home:
           const HomeScreen(), // Here you set HomeScreen as the starting screen
