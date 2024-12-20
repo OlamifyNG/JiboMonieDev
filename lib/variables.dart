@@ -5,4 +5,4 @@ String _uProfilePic =
 // Public getter to access the private variable
 String get uProfilePic => _uProfilePic;
 
-String uBalance = '₦' '2,687.00';
+String uBalance = '₦' '2,587.00';
