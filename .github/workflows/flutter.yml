@@ -13,13 +13,13 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.13.0'  # Use your desired Flutter version
+        flutter-version: '3.13.0'  # Use your preferred Flutter version
 
     - name: Install dependencies
       run: flutter pub get
 
-    - name: Build APK
-      run: flutter build apk --release
+    - name: Build APK for All Architectures
+      run: flutter build apk --release --target-platform android-arm,android-arm64,android-x64
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
