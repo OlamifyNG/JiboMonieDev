@@ -1,28 +1,31 @@
-name: Build Flutter Debug APK
+name: Generate Debug Keystore
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  generate-keystore:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.13.0'  # Use your Flutter version
+    - name: Install Java (if not pre-installed)
+      run: sudo apt-get install default-jdk -y
 
-    - name: Install dependencies
-      run: flutter pub get
+    - name: Generate Debug Keystore
+      run: |
+        keytool -genkey -v -keystore debug.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias androiddebugkey -storepass android -keypass android
+        keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android > sha1-output.txt
 
-    - name: Build Debug APK
-      run: flutter build apk --debug --target-platform android-arm,android-arm64,android-x64
+    - name: Save SHA-1 Output
+      run: cat sha1-output.txt
 
-    - name: Upload APK
+    - name: Upload Keystore (Optional and Secure)
       uses: actions/upload-artifact@v3
       with:
-        name: JiboMonie-Debug-APK
-        path: build/app/outputs/flutter-apk/app-debug.apk
+        name: debug-keystore
+        path: debug.keystore
