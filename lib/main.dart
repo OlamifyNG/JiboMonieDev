@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'deep_link_handler.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Jibomonie',
+      title: 'MyApp',
       theme: ThemeData(
-        fontFamily: 'Poppins',
         primarySwatch: Colors.green,
       ),
-      home:
-          const HomeScreen(), // Here you set HomeScreen as the starting screen
+      home: const DeepLinkHandler(), // Start with DeepLinkHandler
     );
   }
 }
