@@ -1,32 +1,60 @@
-name: Generate Debug Keystore
+name: Build Flutter APK
 
 on:
   push:
     branches:
-      - main
+      - main # Trigger build on push to the 'main' branch
+  pull_request:
+    branches:
+      - main # Trigger build on pull request to 'main'
+  workflow_dispatch: # Allow manual trigger using the "Run Workflow" button
 
 jobs:
-  generate-keystore:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Install Java (if not pre-installed)
-      run: sudo apt-get install default-jdk -y
-
-    - name: Generate Debug Keystore
-      run: |
-        keytool -genkey -v -keystore debug.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias androiddebugkey -storepass android -keypass android
-        keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android > sha1-output.txt
-
-    - name: Save SHA-1 Output
-      run: cat sha1-output.txt
-
-    - name: Upload Keystore (Optional and Secure)
-      uses: actions/upload-artifact@v3
+    - name: Set up Flutter 3.22
+      uses: subosito/flutter-action@v2
       with:
-        name: debug-keystore
-        path: debug.keystore
-  
+        flutter-version: '3.22.0'  # Specify the exact Flutter version (3.22)
+
+    - name: Print Flutter doctor
+      run: |
+        flutter doctor -v # Check Flutter setup and print the status of Flutter SDK, Android SDK, and other dependencies
+
+    - name: Set up Android SDK (android-all)
+      run: |
+        # Install dependencies
+        sudo apt-get update
+        sudo apt-get install -y openjdk-11-jdk
+        sudo apt-get install -y wget curl unzip lib32stdc++6 lib32z1 libgl1-mesa-glx libglu1-mesa
+        # Download and install Android SDK Command-Line Tools (android-all)
+        mkdir -p $HOME/Android/Sdk/cmdline-tools
+        cd $HOME/Android/Sdk/cmdline-tools
+        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+        unzip commandlinetools-linux-8512546_latest.zip
+        # Set environment variables for Android SDK
+        echo 'export ANDROID_SDK_ROOT=$HOME/Android/Sdk' >> ~/.bashrc
+        echo 'export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools' >> ~/.bashrc
+        source ~/.bashrc
+        # Install the full Android SDK (android-all)
+        yes | sdkmanager --licenses
+        sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" "system-images;android-30;google_apis;x86_64" "extras;google;m2repository" "extras;android;m2repository" "tools" "tools_r25.2.3"
+        sdkmanager --update
+
+    - name: Install Flutter dependencies
+      run: |
+        flutter pub get # Get Flutter dependencies
+
+    - name: Build APK (Debug)
+      run: flutter build apk --debug # Build the APK in debug mode
+
+    - name: Upload Debug APK artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-debug.apk
+        path: build/app/outputs/flutter-apk/app-debug.apk # Upload the debug APK artifact
